@@ -1,6 +1,7 @@
 package com.vikram.JWT.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,4 +42,9 @@ public class UserDetailsServiceImp implements UserDetailsService {
 	
 
 }
+
+	public User getUserById(Integer id) {
+		return repository.findById(id)
+				.orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
+	}
 }

@@ -1,6 +1,8 @@
 package com.vikram.JWT.controller;
 
+import com.vikram.JWT.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,9 +22,11 @@ import com.vikram.JWT.service.UserDetailsServiceImp;
 public class AuthenticationController {
 
 	private AuthenticationService authService;
-	private  UserDetailsServiceImp usdi; 
+	private  UserDetailsServiceImp usdi;
+	@Autowired
+	private UserRepository userRepository;
 
-	
+
 	public AuthenticationController(AuthenticationService authService, UserDetailsServiceImp usdi) {
 		super();
 		this.authService = authService;
@@ -43,9 +47,15 @@ public class AuthenticationController {
 	@DeleteMapping("/delete/{id}")
 	   public ResponseEntity<String> deleteUser(@PathVariable("id") Integer id) throws Exception
 	   {
-		usdi.deleteById(id);  
+		usdi.deleteById(id);
 		return ResponseEntity.ok("User with id "+id+ "Deleted Successfully");
-		   
+
 	   }
-    
+	@GetMapping("/user/{id}")
+	public ResponseEntity<User> getUserById(@PathVariable("id") Integer id) {
+		User user = usdi.getUserById(id);
+		return ResponseEntity.ok(user);
+	}
+
+
 }
